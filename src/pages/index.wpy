@@ -1,0 +1,97 @@
+<style lang="less">
+.container {
+  background: #ddd;
+}
+</style>
+<wxs module="m1" lang="babel">
+const getTime = (time) => {
+  let date = getDate(time);
+  let hour = date.getHours();
+  let mins = date.getMinutes();
+  let sec = date.getSeconds();
+  let milli = date.getMilliseconds();
+  return `${hour}:${mins}:${sec}.${milli}`;
+}
+module.exports.getTime = getTime;
+</wxs>
+<template>
+  <div class="container">
+    <button @tap="plus">增加</button>
+    {{mynum}}
+    <!-- .sync配合props进行父传子通信，不能用v-model进行父子双向数据绑定，因为会带来难以维护的问题 -->
+    <mywepy :mynum.sync="mynum" @child_send="receive">
+      <text slot="one">这是第一个插槽</text>
+      <text slot="two">这是第二个插槽</text>
+    </mywepy>
+
+    <panel>
+      <text slot="title">这是自带的插槽组件panel</text>
+    </panel>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import eventHub from '../common/eventHub';
+import { mapState } from '@wepy/x';
+import store from '../store';
+import testMixin from '../mixins/test';
+
+wepy.page({
+  store,
+  config: {
+    navigationBarTitleText: 'test'
+  },
+
+  hooks: {
+    // Page 级别 hook, 只对当前 Page 的 setData 生效。
+    'before-setData': function(dirty) {
+      if (Math.random() < 0.2) {
+        console.log('setData canceled');
+        return false; // Cancel setData
+      }
+      dirty.time = +new Date();
+      return dirty;
+    }
+  },
+
+  mixins: [testMixin],
+
+  data: {
+    inputmodel: 'v-model',
+    mynum: 10, // 传递给子组件
+    // name:'linda'
+  },
+
+  computed: {},
+
+  methods: {
+    // 子组件触发的方法
+    receive(item) {
+      // console.log(item);
+      this.mynum = item;
+      // console.log(this.mynum);
+    },
+    plus() {
+      this.mynum ++
+    }
+  },
+
+  created() {}
+});
+</script>
+<config>
+{
+    navigationBarTitleText: 'wepy 首页',
+    usingComponents: {
+      panel: '~@/components/panel',
+      counter: '~counter',
+      list: '../components/list',
+      group: '../components/group',
+      "slide-view": "module:miniprogram-slide-view",
+      myone: '~@/components/myone', // 导入自定义组件,
+      mywepy: '~@/components/mywepy',
+      child: '~@/components/test'
+    }
+}
+</config>

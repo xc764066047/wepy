@@ -1,0 +1,22 @@
+<style scoped>
+
+</style>
+
+<template>
+    <label class="child">
+        输入框：
+        
+        <input :value="val" @input="$emit('update:val',$event.target.value)"/>
+    </label>
+</template>
+
+<script>
+    // 导入wepy
+    import wepy from '@wepy/core';
+
+
+    wepy.component({
+        props:['val'],
+    })
+</script>
+

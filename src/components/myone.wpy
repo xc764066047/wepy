@@ -1,0 +1,35 @@
+<style lang="less">
+
+</style>
+
+<template>
+    <div class="container">
+        <button @click="count++" >
+            {{count}}
+        </button>
+        {{mynum}}
+    </div>
+</template>
+
+<script>
+    import wepy from '@wepy/core';
+    wepy.component({
+        // props，传值
+        props: {
+            mynum: {
+                type: Number,   // 这个值是数字类型（也可以是String、Boolean类型），默认值为0
+                twoWay: true,   // 意思是子组件的值改变了，父组件的值也会更改,
+            },
+        },
+        data: {
+            count: 0
+        },
+        methods: {
+            cons() {
+                console.log(123);
+            }
+        }
+    })
+</script>
+
+

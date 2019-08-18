@@ -1,0 +1,127 @@
+<style scoped>
+.list {
+  display: flex;
+}
+
+.list text {
+  font-size: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.list button {
+  height: 40px;
+}
+
+input {
+  border: 1px solid #666;
+}
+</style>
+
+<template>
+  <div class="box">
+    <div>
+      <input type="text" v-model="message" placeholder="请输入内容" autofocus>
+      <button @tap="addList">添加数据</button>
+      <text>-----------------------------------</text>
+    </div>
+    <div v-for="(item, index) in list" :key="index" class="list">
+      <text>{{item}}</text>
+      <button class="del" @tap="delList($index)">删除{{index}}</button>
+    </div>
+    <text>父组件传递过来的mynum值:{{mynum}}</text>
+    <button @tap="add2">累加2</button>
+    <!-- 插槽 -->
+    <slot name="one">one</slot>
+    <button @tap="send">发送</button>
+    <slot name="two">one</slot>
+    <div>{{age}}</div>
+    <!-- 子组件向父组件传值 -->
+    <!-- this.$emit("事件", 传的值) -->
+  </div>
+</template>
+
+<script>
+// 导入wepy
+import wepy from '@wepy/core';
+// 导入axios依赖
+// import axios from '~@/module/axios';
+// wepy.use(axios);
+
+wepy.component({
+  options: {
+    multipleSlots: true // 在组件定义时的选项中启用多slot支持
+  },
+  // 通过props接收父组件传递过来的值
+  props: {
+    mynum: {
+      type: Number,
+      twoWay: true // 当为true时，子组件的值改变，父组件也会跟着改变
+    }
+  },
+  data: {
+    message: '',
+    list: [],
+    list_1: []
+  },
+  methods: {
+    addList() {
+      this.list_1.push(this.message);
+      this.list = [...this.list_1];
+      this.message = null;
+    },
+
+    delList(index) {
+      this.list_1.splice(index, 1);
+      this.list = [...this.list_1];
+    },
+
+    add2() {
+      this.mynum += 2;
+      // wx.request({
+      //   url: 'https://m.lagou.com/listmore.json?pageNo=2&pageSize=15', //仅为示例，并非真实的接口地址
+      //   header: {
+      //     'content-type': 'application/json' // 默认值
+      //   },
+      //   success(res) {
+      //     console.log(res);
+      //   }
+      // });
+    },
+    send() {
+      // 触发父组件监听器,child_send是父组件中监听器的名字，this.mynum是传递给父组件监听器方法的值
+      this.$emit('child_send', this.mynum);
+    }
+  },
+  computed: {
+    age() {
+      return this.mynum >= 18 ? '楼上男宾两位' : '回家找你麻麻吃饭去!';
+    }
+  },
+  //   watch是监听方法，可以监听数据的改变
+  watch: {
+    mynum(newNum, oldNum) {
+      console.log('新数据是' + newNum, '旧数据是' + oldNum);
+    }
+  },
+  // 生命周期，监听页面加载
+  onLoad() {
+    // axios
+    //   .get('https://m.lagou.com/listmore.json?pageNo=2&pageSize=15')
+    //   .then(res => {
+    //     console.log(res);
+    //   });
+    wx.request({
+        url: 'https://m.lagou.com/listmore.json?pageNo=2&pageSize=15', //仅为示例，并非真实的接口地址
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success(res) {
+          console.log(res);
+          console.log("修改版本");
+        }
+      });
+  }
+});
+</script>
+

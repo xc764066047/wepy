@@ -1,0 +1,7 @@
+
+<view class="container">
+    <button data-wpy-evt="15-0" bindtap="_proxy">
+        {{count}}
+    </button>
+    {{mynum}}
+</view>

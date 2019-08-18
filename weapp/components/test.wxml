@@ -1,0 +1,6 @@
+
+<label class="child">
+    输入框：
+    
+    <input value="{{ val }}" data-wpy-evt="17-0" bindinput="_proxy"></input>
+</label>

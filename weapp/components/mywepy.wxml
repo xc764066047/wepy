@@ -1,0 +1,21 @@
+
+<view class="box">
+  <view>
+    <input type="text" value="{{ message }}" bindinput="_proxy" data-model-id="0" placeholder="请输入内容" autofocus="">
+    <button data-wpy-evt="16-0" bindtap="_proxy">添加数据</button>
+    <text>-----------------------------------</text>
+  </input></view>
+  <view wx:for="{{ list }}" wx:for-index="index" wx:for-item="item" wx:key="index" key="{{ index }}" class="list">
+    <text>{{item}}</text>
+    <button data-wpy-evt="16-1" bindtap="_proxy" class="del">删除{{index}}</button>
+  </view>
+  <text>父组件传递过来的mynum值:{{mynum}}</text>
+  <button data-wpy-evt="16-2" bindtap="_proxy">累加2</button>
+  
+  <slot name="one">one</slot>
+  <button data-wpy-evt="16-3" bindtap="_proxy">发送</button>
+  <slot name="two">one</slot>
+  <view>{{age}}</view>
+  
+  
+</view>

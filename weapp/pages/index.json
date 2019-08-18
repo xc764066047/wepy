@@ -1,0 +1,14 @@
+{
+    "navigationBarTitleText": "wepy 首页",
+    "component": true,
+    "usingComponents": {
+        "list": "../components/wepy-list",
+        "group": "../components/group",
+        "panel": "../components/panel",
+        "counter": "../components/counter",
+        "myone": "../components/myone",
+        "mywepy": "../components/mywepy",
+        "child": "../components/test",
+        "slide-view": "../$vendor/miniprogram-slide-view/miniprogram_dist/index"
+    }
+}

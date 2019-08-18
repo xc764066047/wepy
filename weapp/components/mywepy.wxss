@@ -1,0 +1,19 @@
+              
+.list {
+  display: flex;
+}
+
+.list text {
+  font-size: 20px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.list button {
+  height: 40px;
+}
+
+input {
+  border: 1px solid #666;
+}
+
